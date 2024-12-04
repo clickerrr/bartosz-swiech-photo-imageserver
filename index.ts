@@ -42,7 +42,10 @@ const server = serve({
 			try {
 				const directories = fetchDirectories();
 				return new Response(JSON.stringify(directories), {
-					headers: { 'Content-Type': 'application/json' },
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*',
+					},
 					status: 200,
 				});
 			} catch (error: unknown) {
@@ -69,7 +72,10 @@ const server = serve({
 				const images = fetchImages(dirPath);
 				const response: ApiResponse = { images };
 				return new Response(JSON.stringify(response), {
-					headers: { 'Content-Type': 'application/json' },
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*',
+					},
 					status: 200,
 				});
 			} catch (error: unknown) {
@@ -111,6 +117,7 @@ const server = serve({
 					headers: {
 						'Content-Type': mimeType,
 						'Cache-Control': 'public, max-age=3600', // Optional caching
+						'Access-Control-Allow-Origin': '*',
 					},
 					status: 200,
 				});
