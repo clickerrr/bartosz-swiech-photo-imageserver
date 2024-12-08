@@ -22,7 +22,7 @@ function fetchImages(directory: string): string[] {
 	} catch (error) {
 		throw new Error(`Failed to read directory: ${error.message}`);
 	}
-}	
+}
 
 function fetchDirectories(directory: string): string[] {
 	try {
@@ -37,7 +37,7 @@ function fetchDirectories(directory: string): string[] {
 const app = new Elysia()
 	.get('/directories', ({ set }) => {
 		try {
-			const directories = fetchDirectories('../public/images');
+			const directories = fetchDirectories('./public/images');
 
 			set.status = 200;
 			set.headers['Content-Type'] = 'application/json';
@@ -107,7 +107,7 @@ const app = new Elysia()
 	.get('/catalogs', ({ set }) => {
 		try {
 			console.log('Here');
-			const catalogs = fetchDirectories('../public');
+			const catalogs = fetchDirectories('./public/catalogs');
 			set.status = 200;
 			set.headers['Content-Type'] = 'application/json';
 			set.headers['Access-Control-Allow-Origin'] = '*';
@@ -124,11 +124,18 @@ const app = new Elysia()
 	.get('/catalogs/:catalogName', ({ params, set }) => {
 		const name = params.catalogName;
 		try {
+			const filePath = join('./public/catalogs', name + '.json');
+			const fileResult = readFileSync(filePath);
+			set.headers['Content-Type'] = 'application/json';
+			set.headers['Access-Control-Allow-Origin'] = '*';
+			set.status = 200;
+			return fileResult;
 		} catch (error: unknown) {
 			const response: ApiResponse = {
 				error: 'Resource not found',
 				details: error instanceof Error ? error.message : String(error),
 			};
+			set.status = 404;
 			return response;
 		}
 	})
