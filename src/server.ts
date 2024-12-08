@@ -124,7 +124,7 @@ const app = new Elysia()
 	.get('/catalogs/:catalogName', ({ params, set }) => {
 		const name = params.catalogName;
 		try {
-			const filePath = join('./public/catalogs', name + '.json');
+			const filePath = join('./public/catalogs', name);
 			const fileResult = readFileSync(filePath);
 			set.headers['Content-Type'] = 'application/json';
 			set.headers['Access-Control-Allow-Origin'] = '*';
