@@ -106,7 +106,6 @@ const app = new Elysia()
 	})
 	.get('/catalogs', ({ set }) => {
 		try {
-			console.log('Here');
 			const catalogs = fetchDirectories('./public/catalogs');
 			set.status = 200;
 			set.headers['Content-Type'] = 'application/json';
